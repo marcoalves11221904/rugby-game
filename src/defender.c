@@ -1,5 +1,7 @@
 // Standard headers
 #include <stdio.h>
+#include <stdlib.h> //rand()
+#include <time.h> //time()
 
 // Internal headers
 #include "direction.h"
@@ -18,12 +20,18 @@
 
 direction_t execute_defender_strategy(
     position_t defender_position, Spy attacker_spy) {
-  // TODO: unused parameters, remove these lines later
-  UNUSED(defender_position);
-  UNUSED(attacker_spy);
-
-  // TODO: Implement Defender logic here
-  return (direction_t) DIR_LEFT;
+    UNUSED(attacker_spy);
+    UNUSED(defender_position);
+    static bool calledSRand = false;
+    if (!calledSRand) {
+        //Iremos chamar srand() apenas uma vez em nossa estratégia
+        time_t timeSeed;
+        srand((unsigned)time(&timeSeed));
+        calledSRand = true;
+    }
+    //O defensor irá mover-se aleatoriamente para cima ou para baixo
+    direction_t moveDir = ((rand() & 1) == 0 ? (direction_t)DIR_UP : (direction_t)DIR_DOWN);
+    return moveDir;
 }
 
 /*----------------------------------------------------------------------------*/
